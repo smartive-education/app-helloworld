@@ -14,6 +14,12 @@ export const Header: FC<HeaderProps> = ({ children, title }: HeaderProps) => {
       <Button label="Click me" onClick={function noRefCheck() {}} size="M" variant="gradient">
         <MumbleIcon size={16}/>
       </Button>
+        <div className={'label-S'}>
+            test
+        </div>
+        <div className={'label-M'}>
+            test
+        </div>
     </>
   );
 };
