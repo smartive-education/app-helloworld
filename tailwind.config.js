@@ -1,12 +1,9 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: [
-    "./app/**/*.{ts,tsx}",
-    "./pages/**/*.{ts,tsx}",
-    "./components/**/*.{ts,tsx}",
+  presets: [
+    require('@smartive-education/design-system-component-library-hello-world-team/tailwind'),
   ],
-  theme: {
-    extend: {},
-  },
-  plugins: [],
-};
+  content: [
+    './node_modules/@smartive-education/design-system-component-library-hello-world-team/dist/components/**/*.{js,ts,jsx,tsx}'
+  ]
+}
