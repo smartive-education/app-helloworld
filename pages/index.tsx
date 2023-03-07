@@ -12,7 +12,6 @@ type PageProps = {
 
 export default function PageHome({ mumbles: initialMumbles, error }: InferGetServerSidePropsType<typeof getServerSideProps>) {
     const [mumbles, setMumbles] = useState(initialMumbles);
-    const { data: session } = useSession();
 
     if (error) {
         return <div>An error occurred: {error}</div>;
@@ -21,15 +20,11 @@ export default function PageHome({ mumbles: initialMumbles, error }: InferGetSer
     return (
         <div>
             <Navbar>
-                {!!session && (
-                    <>
-                        <span >Profile</span>
-                        <span>Settings</span>
-                        <a href="#" onClick={() => signOut()}>
-                            <p>Logout</p>
-                        </a>
-                    </>
-                )}
+                <span >Profile</span>
+                <span>Settings</span>
+                <a href="#" onClick={() => signOut()}>
+                    <p>Logout</p>
+                </a>
             </Navbar>
             <ul>
                 {mumbles.map((mumble) => (
