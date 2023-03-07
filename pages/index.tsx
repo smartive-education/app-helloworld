@@ -1,7 +1,6 @@
-import {Navbar} from '@smartive-education/design-system-component-library-hello-world-team';
-import {getSession, signOut, useSession} from 'next-auth/react';
+import { Navbar } from '@smartive-education/design-system-component-library-hello-world-team';
+import { getSession, signOut } from 'next-auth/react';
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
-import { Header } from '../components/header';
 import { fetchMumbles, Mumble } from '../services/qwacker';
 import { useState } from 'react';
 
@@ -15,21 +14,21 @@ export default function PageHome({
   mumbles: initialMumbles,
   error,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
-  const [mumbles, setMumbles] = useState(initialMumbles);
+  const [mumbles] = useState(initialMumbles);
 
   if (error) {
     return <div>An error occurred: {error}</div>;
   }
 
-    return (
-        <div>
-            <Navbar>
-                <span >Profile</span>
+  return (
+    <div>
+      <Navbar>
+        <span>Profile</span>
         <span>Settings</span>
-                <a href="#" onClick={() => signOut()}>
-                    <p>Logout</p>
-                </a>
-            </Navbar>
+        <a href="#" onClick={() => signOut()}>
+          <p>Logout</p>
+        </a>
+      </Navbar>
       <ul>
         {mumbles.map((mumble) => (
           <li key={mumble.id}>
@@ -44,16 +43,16 @@ export default function PageHome({
 }
 
 export const getServerSideProps: GetServerSideProps<PageProps> = async (context) => {
-    const session = await getSession(context);
+  const session = await getSession(context);
 
-    if (!session) {
-        return {
-            redirect: {
-                destination: '/login',
-                permanent: false,
-            },
-        }
-    }
+  if (!session) {
+    return {
+      redirect: {
+        destination: '/login',
+        permanent: false,
+      },
+    };
+  }
 
   try {
     const { count, mumbles } = await fetchMumbles({ limit: 20 });
