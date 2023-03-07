@@ -1,8 +1,17 @@
 import {signIn, useSession} from 'next-auth/react';
 import {Button, MumbleIcon} from '@smartive-education/design-system-component-library-hello-world-team';
+import { useRouter } from 'next/router';
+import { useEffect } from 'react';
 
 export default function Home() {
   const { data: session } = useSession();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (session) {
+      router.push('/');
+    }
+  });
 
   return (
     <div className={'grid grid-cols-1 md:grid-cols-2 divide-x h-screen'}>
