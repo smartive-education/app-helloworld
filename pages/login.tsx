@@ -1,5 +1,5 @@
-import { signIn, useSession } from 'next-auth/react';
-import { Button, MumbleIcon } from '@smartive-education/design-system-component-library-hello-world-team';
+import {signIn, useSession} from 'next-auth/react';
+import {Button, MumbleIcon} from '@smartive-education/design-system-component-library-hello-world-team';
 
 export default function Home() {
   const { data: session } = useSession();
