@@ -1,9 +1,8 @@
 import {GetServerSideProps, InferGetServerSidePropsType} from "next";
-import {Header} from "../components/header";
 import {fetchMumbles, Mumble} from '../services/qwacker';
 import {useState} from 'react';
-import {MumbleIcon, Navbar, ProfilePic} from '@smartive-education/design-system-component-library-hello-world-team';
-import {signOut, useSession} from 'next-auth/react';
+import {Navbar} from '@smartive-education/design-system-component-library-hello-world-team';
+import {getSession, signOut, useSession} from 'next-auth/react';
 
 type PageProps = {
     count: number;
@@ -45,7 +44,18 @@ export default function PageHome({ mumbles: initialMumbles, error }: InferGetSer
     );
 }
 
-export const getServerSideProps: GetServerSideProps<PageProps> = async () => {
+export const getServerSideProps: GetServerSideProps<PageProps> = async (context) => {
+    const session = await getSession(context);
+
+    if (!session) {
+        return {
+            redirect: {
+                destination: '/login',
+                permanent: false,
+            },
+        }
+    }
+
     try {
         const { count, mumbles } = await fetchMumbles({ limit: 20 });
 
