@@ -1,7 +1,6 @@
-import { GetServerSideProps, InferGetServerSidePropsType } from "next";
-import Image from "next/image";
-import { useState } from "react";
-import { fetchMumbles, Mumble } from "../services/qwacker";
+import {GetServerSideProps, InferGetServerSidePropsType} from "next";
+import {useState} from "react";
+import {fetchMumbles, Mumble} from "../services/qwacker";
 
 type PageProps = {
     count: number;
@@ -9,11 +8,7 @@ type PageProps = {
     error?: string;
 };
 
-export default function Page({
-                                 count,
-                                 mumbles: initialMumbles,
-                                 error,
-                             }: InferGetServerSidePropsType<typeof getServerSideProps>) {
+export default function Page({ mumbles: initialMumbles, error }: InferGetServerSidePropsType<typeof getServerSideProps>) {
     const [mumbles, setMumbles] = useState(initialMumbles);
 
     if (error) {
@@ -21,24 +16,13 @@ export default function Page({
     }
 
     return (
-        <div className="w-60 m-auto my-10">
-            <h2 className="text-lg">{count} mumbles</h2>
+        <div>
             <ul>
                 {mumbles.map((mumble) => (
-                    <li key={mumble.id} className="bg-gray-100 rounded px-4 py-2 mt-2">
-                        <p className="text-sm">
-                            {mumble.text} ({mumble.createdTimestamp})
+                    <li key={mumble.id}>
+                        <p>
+                            {mumble.text} ({mumble.createdTimestamp} ) {mumble.createdDate}
                         </p>
-                        {mumble.mediaUrl && (
-                            <figure className="relative block max-w-full h-64 my-2">
-                                <Image
-                                    src={mumble.mediaUrl}
-                                    alt={mumble.text}
-                                    fill
-                                    style={{ objectFit: "cover" }}
-                                />
-                            </figure>
-                        )}
                     </li>
                 ))}
             </ul>
@@ -47,7 +31,7 @@ export default function Page({
 }
 export const getServerSideProps: GetServerSideProps<PageProps> = async () => {
     try {
-        const { count, mumbles } = await fetchMumbles({ limit: 1 });
+        const { count, mumbles } = await fetchMumbles({ limit: 20 });
 
         return { props: { count, mumbles } };
     } catch (error) {

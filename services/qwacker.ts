@@ -11,6 +11,7 @@ export type Mumble = {
     type: string;
     replyCount: number;
     createdTimestamp: number;
+    createdDate?: string;
 };
 
 type RawMumble = Omit<Mumble, "createdTimestamp">;
@@ -53,4 +54,5 @@ export const fetchMumbles = async (params?: {
 const transformMumble = (mumble: RawMumble) => ({
     ...mumble,
     createdTimestamp: decodeTime(mumble.id),
+    createdDate: new Date(decodeTime(mumble.id)).toLocaleDateString()
 });
