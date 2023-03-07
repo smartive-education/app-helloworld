@@ -1,31 +1,26 @@
-import { signIn, signOut, useSession } from 'next-auth/react';
-import Head from 'next/head';
+import {signIn, useSession} from 'next-auth/react';
+import {Button, MumbleIcon} from '@smartive-education/design-system-component-library-hello-world-team';
 
 export default function Home() {
   const { data: session } = useSession();
 
   return (
-    <>
-      <Head>
-        <title>Login</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
+    <div className={'grid grid-cols-1 md:grid-cols-2 divide-x h-screen'}>
+      <div className={'bg-gradient-to-br from-pink-500 to-violet-500 flex justify-center items-center'}>
+          <div className={'label-XL text-center'}>
+            <div className={'text-white'}>Mumble-Logo</div>
+            <div className={'text-pink-300'}>Find out what's new in <span className={'text-white'}>#fashion</span>.</div>
+          </div>
+      </div>
 
-      <main>
-        {!!session && (
-          <a href="#" onClick={() => signOut()}>
-            <h2>Logout &rarr;</h2>
-            <p>Logout from your account</p>
-          </a>
-        )}
-
-        {!session && (
-          <a href="#" onClick={() => signIn('zitadel')}>
-            <h2>Login &rarr;</h2>
-            <p>Login with a ZITADEL account</p>
-          </a>
-        )}
-      </main>
-    </>
+      <div className={'flex justify-center items-center'}>
+          <div>
+          <h1 className={'label-XL'}>Anmelden</h1>
+              <Button label="Let's mumble" onClick={() => signIn('zitadel')} size="L" variant="gradient">
+                  <MumbleIcon size={16} />
+              </Button>
+          </div>
+      </div>
+    </div>
   );
 }
