@@ -1,5 +1,5 @@
-import {signIn, signOut, useSession} from "next-auth/react";
-import Head from "next/head";
+import {signIn, signOut, useSession} from 'next-auth/react';
+import Head from 'next/head';
 import {useRouter} from 'next/router';
 import {useEffect} from 'react';
 
@@ -22,7 +22,7 @@ export default function Home() {
 
       <main>
         {!session && (
-          <a href="#" onClick={() => signIn("zitadel")}>
+          <a href="#" onClick={() => signIn('zitadel')}>
             <h2>Login &rarr;</h2>
             <p>Login with a ZITADEL account</p>
           </a>
