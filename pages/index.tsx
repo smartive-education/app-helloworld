@@ -1,7 +1,9 @@
-import {GetServerSideProps, InferGetServerSidePropsType, InferGetStaticPropsType} from "next";
-import { Header } from "../components/header";
+import {GetServerSideProps, InferGetServerSidePropsType} from "next";
+import {Header} from "../components/header";
 import {fetchMumbles, Mumble} from '../services/qwacker';
 import {useState} from 'react';
+import {MumbleIcon, Navbar, ProfilePic} from '@smartive-education/design-system-component-library-hello-world-team';
+import {signOut, useSession} from 'next-auth/react';
 
 type PageProps = {
     count: number;
@@ -11,6 +13,7 @@ type PageProps = {
 
 export default function PageHome({ mumbles: initialMumbles, error }: InferGetServerSidePropsType<typeof getServerSideProps>) {
     const [mumbles, setMumbles] = useState(initialMumbles);
+    const { data: session } = useSession();
 
     if (error) {
         return <div>An error occurred: {error}</div>;
@@ -18,9 +21,17 @@ export default function PageHome({ mumbles: initialMumbles, error }: InferGetSer
 
     return (
         <div>
-             <Header title="Mumble">
-                <span>Your custom network</span>
-             </Header>
+            <Navbar>
+                {!!session && (
+                    <>
+                        <span >Profile</span>
+                        <span>Settings</span>
+                        <a href="#" onClick={() => signOut()}>
+                            <p>Logout</p>
+                        </a>
+                    </>
+                )}
+            </Navbar>
             <ul>
                 {mumbles.map((mumble) => (
                     <li key={mumble.id}>
@@ -33,10 +44,6 @@ export default function PageHome({ mumbles: initialMumbles, error }: InferGetSer
         </div>
     );
 }
-// export const getServerSideProps: GetServerSideProps = async () => ({
-//   props: { posts: require("../data/posts.json") },
-// });
-
 
 export const getServerSideProps: GetServerSideProps<PageProps> = async () => {
     try {
