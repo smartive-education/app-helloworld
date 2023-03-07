@@ -1,5 +1,5 @@
-import {signIn, useSession} from 'next-auth/react';
-import {Button, MumbleIcon} from '@smartive-education/design-system-component-library-hello-world-team';
+import { signIn, useSession } from 'next-auth/react';
+import { Button, MumbleIcon } from '@smartive-education/design-system-component-library-hello-world-team';
 
 export default function Home() {
   const { data: session } = useSession();
@@ -7,19 +7,21 @@ export default function Home() {
   return (
     <div className={'grid grid-cols-1 md:grid-cols-2 divide-x h-screen'}>
       <div className={'bg-gradient-to-br from-pink-500 to-violet-500 flex justify-center items-center'}>
-          <div className={'label-XL text-center'}>
-            <div className={'text-white'}>Mumble-Logo</div>
-            <div className={'text-pink-300'}>Find out what's new in <span className={'text-white'}>#fashion</span>.</div>
+        <div className={'label-XL text-center'}>
+          <div className={'text-white'}>Mumble-Logo</div>
+          <div className={'text-pink-300'}>
+            Find out what's new in <span className={'text-white'}>#fashion</span>.
           </div>
+        </div>
       </div>
 
       <div className={'flex justify-center items-center'}>
-          <div>
+        <div>
           <h1 className={'label-XL'}>Anmelden</h1>
-              <Button label="Let's mumble" onClick={() => signIn('zitadel')} size="L" variant="gradient">
-                  <MumbleIcon size={16} />
-              </Button>
-          </div>
+          <Button label="Let's mumble" onClick={() => signIn('zitadel')} size="L" variant="gradient">
+            <MumbleIcon size={16} />
+          </Button>
+        </div>
       </div>
     </div>
   );
