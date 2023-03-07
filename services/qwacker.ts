@@ -45,6 +45,8 @@ export const fetchMumbles = async (params?: { limit?: number; offset?: number; n
   };
 };
 
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
 const transformMumble = (mumble: RawMumble) => ({
   ...mumble,
   createdTimestamp: decodeTime(mumble.id),
