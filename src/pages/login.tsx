@@ -22,7 +22,7 @@ export default function Home() {
 
       <main>
         {!session && (
-          <a href="#" onClick={() => signIn('zitadel')}>
+          <a href="src/pages#" onClick={() => signIn('zitadel')}>
             <h2>Login &rarr;</h2>
             <p>Login with a ZITADEL account</p>
           </a>
