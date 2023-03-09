@@ -38,7 +38,7 @@ export default function PageHome({
       </Navbar>
 
       <div className={'grid grid-cols-1 justify-items-center'}>
-        <ul className={'w-615'}>
+        <ul className={'w-screen md:w-615'}>
           {mumbles.map((mumble) => (
             <li key={mumble.id} className={'m-s'}>
               <Card borderType={'rounded'}>
