@@ -1,7 +1,7 @@
 import {signIn, useSession} from 'next-auth/react';
 import {Button, MumbleIcon} from '@smartive-education/design-system-component-library-hello-world-team';
-import { useRouter } from 'next/router';
-import { useEffect } from 'react';
+import {useRouter} from 'next/router';
+import {useEffect} from 'react';
 
 export default function Home() {
   const { data: session } = useSession();
