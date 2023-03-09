@@ -22,7 +22,9 @@ export default function PageHome({
 
   return (
     <div>
-      <Navbar>
+      <Navbar
+          logoHref={'#'}
+          logoAriaLabel={'Navigate to home'}>
         <span>Profile</span>
         <span>Settings</span>
         <a href="#" onClick={() => signOut()}>
