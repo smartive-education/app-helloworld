@@ -1,4 +1,11 @@
-import { Navbar } from '@smartive-education/design-system-component-library-hello-world-team';
+import {
+  Card,
+  CommentButton,
+  CopyButton,
+  Navbar,
+  ProfileHeader,
+  LikeButtonWithReactionButton,
+} from '@smartive-education/design-system-component-library-hello-world-team';
 import { getSession, signOut } from 'next-auth/react';
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
 import { fetchMumbles, Mumble } from '../services/qwacker';
@@ -22,24 +29,54 @@ export default function PageHome({
 
   return (
     <div>
-      <Navbar
-          logoHref={'#'}
-          logoAriaLabel={'Navigate to home'}>
+      <Navbar logoHref={'#'} logoAriaLabel={'Navigate to home'}>
         <span>Profile</span>
         <span>Settings</span>
         <a href="#" onClick={() => signOut()}>
           <p>Logout</p>
         </a>
       </Navbar>
-      <ul>
-        {mumbles.map((mumble) => (
-          <li key={mumble.id}>
-            <p>
-              {mumble.text} ({mumble.createdTimestamp} ) {mumble.createdDate}
-            </p>
-          </li>
-        ))}
-      </ul>
+
+      <div className={'grid grid-cols-1 justify-items-center'}>
+        <ul className={'w-screen md:w-615'}>
+          {mumbles.map((mumble) => (
+            <li key={mumble.id} className={'m-s'}>
+              <Card borderType={'rounded'}>
+                <ProfileHeader
+                  fullName={mumble.creator}
+                  labelType={'M'}
+                  profilePictureSize={'M'}
+                  timestamp={mumble.createdDate}
+                ></ProfileHeader>
+                <div className={'mt-l'}>
+                  <p className={'paragraph-M'}>{mumble.text}</p>
+                </div>
+
+                <div className="flex relative -left-3 space-x-8">
+                  <CommentButton
+                    label={{ noComments: 'Comment', someComments: 'Comments' }}
+                    numberOfComments={mumble.replyCount}
+                    onClick={undefined}
+                  />
+                  <LikeButtonWithReactionButton
+                    onClick={undefined}
+                    active
+                    label={{
+                      noReaction: 'Like',
+                      oneReaction: 'Like',
+                      reactionByCurrentUser: 'Liked',
+                      severalReaction: 'Likes',
+                    }}
+                    likes={mumble.likeCount ?? 0}
+                    reactionByCurrentUser={mumble.likedByUser}
+                  />
+                  <CopyButton onClick={undefined} active={false} label={{ inactive: 'Copy Link', active: 'Link copied' }} />
+                </div>
+              </Card>
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 }
