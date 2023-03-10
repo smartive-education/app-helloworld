@@ -2,14 +2,15 @@ import {
   Card,
   CommentButton,
   CopyButton,
+  LikeButtonWithReactionButton,
   Navbar,
   ProfileHeader,
-  LikeButtonWithReactionButton,
 } from '@smartive-education/design-system-component-library-hello-world-team';
 import { getSession, signOut } from 'next-auth/react';
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
-import { fetchMumbles, Mumble } from '../services/qwacker';
+import { fetchMumbles, Mumble } from '../services/mumble';
 import { useState } from 'react';
+import { fetchUsers } from '../services/users';
 
 type PageProps = {
   count: number;
@@ -43,10 +44,14 @@ export default function PageHome({
             <li key={mumble.id} className={'m-s'}>
               <Card borderType={'rounded'}>
                 <ProfileHeader
-                  fullName={mumble.creator}
+                  fullName={`${mumble?.creatorProfile?.firstName} ${mumble?.creatorProfile?.lastName}`}
                   labelType={'M'}
                   profilePictureSize={'M'}
                   timestamp={mumble.createdDate}
+                  username={mumble?.creatorProfile?.userName}
+                  imageSrc={mumble?.creatorProfile?.avatarUrl}
+                  hrefProfile={'#'}
+                  altText={'Avatar'}
                 ></ProfileHeader>
                 <div className={'mt-l'}>
                   <p className={'paragraph-M'}>{mumble.text}</p>
@@ -94,9 +99,25 @@ export const getServerSideProps: GetServerSideProps<PageProps> = async (context)
   }
 
   try {
-    const { count, mumbles } = await fetchMumbles({ limit: 20 });
+    const { count, mumbles } = await fetchMumbles({ limit: 200 });
+    const { users } = await fetchUsers();
 
-    return { props: { count, mumbles } };
+    const mumblesWithUserInfo = mumbles.map((mumble) => {
+      const creator = users?.find((user) => user.id === mumble.creator);
+      return {
+        ...mumble,
+        creatorProfile: {
+          id: creator?.id,
+          userName: creator?.userName,
+          firstName: creator?.firstName,
+          lastName: creator?.lastName,
+          fullName: `${mumble?.creatorProfile?.firstName} ${mumble?.creatorProfile?.lastName}`,
+          avatarUrl: creator?.avatarUrl,
+        },
+      };
+    });
+
+    return { props: { count, mumbles: mumblesWithUserInfo } };
   } catch (error) {
     let message;
     if (error instanceof Error) {

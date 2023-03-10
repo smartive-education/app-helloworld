@@ -1,8 +1,9 @@
-import { decodeTime } from 'ulid';
+import {decodeTime} from 'ulid';
 
 export type Mumble = {
   id: string;
   creator: string;
+  creatorProfile?: User;
   text: string;
   mediaUrl: string;
   mediaType: string;
